@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maintenance Management - RoadGuard AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-[#0b0f19] text-gray-100 min-h-screen flex antialiased">
+
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden backdrop-blur-sm"></div>
+
+  <!-- Sidebar -->
+  <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-[#0f172a] border-r border-gray-800 flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0">
+    <div class="h-16 px-6 border-b border-gray-800 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center shadow-md shadow-sky-500/20">
+          <i class="fas fa-road text-white text-sm"></i>
+        </div>
+        <div>
+          <span class="font-extrabold tracking-tight text-white text-base">ROADGUARD <span class="text-sky-400">AI</span></span>
+          <span class="block text-[8px] font-mono tracking-widest text-gray-400 uppercase -mt-0.5">Control Center</span>
+        </div>
+      </a>
+      <button onclick="document.getElementById('app-sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-overlay').classList.add('hidden');" class="lg:hidden text-gray-400 hover:text-white">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <nav class="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto">
+      <div class="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-gray-500">Navigation</div>
+      <a href="/dashboard" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-gauge-high w-5 text-center text-sky-400"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/detect" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-crosshairs w-5 text-center text-indigo-400"></i>
+        <span>AI Detection</span>
+      </a>
+      <a href="/map" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-map-location-dot w-5 text-center text-emerald-400"></i>
+        <span>Road Damage Map</span>
+      </a>
+      <a href="/history" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-clock-rotate-left w-5 text-center text-amber-400"></i>
+        <span>Detection History</span>
+      </a>
+      <a href="/maintenance" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-truck-pickup w-5 text-center text-rose-400"></i>
+        <span>Maintenance</span>
+      </a>
+      <a href="/analytics" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-chart-pie w-5 text-center text-cyan-400"></i>
+        <span>Analytics</span>
+      </a>
+      <div class="pt-5 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-gray-500">Documentation</div>
+      <a href="/about" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-graduation-cap w-5 text-center text-purple-400"></i>
+        <span>Project Info</span>
+      </a>
+      <a href="/" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-home w-5 text-center text-gray-400"></i>
+        <span>Landing Page</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 lg:ml-64 flex flex-col min-h-screen">
+    
+    <!-- Top Bar -->
+    <header class="h-16 bg-[#0f172a]/95 backdrop-blur-md border-b border-gray-800 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+      <div class="flex items-center gap-3">
+        <button onclick="document.getElementById('app-sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-overlay').classList.toggle('hidden');" class="lg:hidden text-gray-400 hover:text-white p-1">
+          <i class="fas fa-bars text-lg"></i>
+        </button>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-white leading-tight">Municipal Maintenance Operations</h1>
+          <p class="text-xs text-gray-400 hidden sm:block">Work order dispatching, task assignment, and repair lifecycle</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-mono px-3 py-1 rounded-full bg-rose-950/80 border border-rose-500/40 text-rose-300">
+          <i class="fas fa-arrow-down-wide-short mr-1"></i> High Priority First
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 sm:p-8 space-y-8">
+      
+      <!-- Workflow Sequence Indicator -->
+      <div class="glass-card p-4 rounded-2xl border border-gray-800">
+        <div class="flex flex-wrap items-center justify-between gap-3 text-xs">
+          <span class="font-bold text-gray-300 uppercase tracking-wider font-mono">
+            <i class="fas fa-arrows-split-up-and-left text-sky-400 mr-1.5"></i> Maintenance Life-Cycle:
+          </span>
+          <div class="flex flex-wrap items-center gap-2 font-mono text-[11px]">
+            <span class="px-2.5 py-1 rounded-lg bg-gray-800 text-gray-300 border border-gray-700">1. Detected</span>
+            <span class="text-gray-600">→</span>
+            <span class="px-2.5 py-1 rounded-lg bg-rose-950/50 text-rose-300 border border-rose-800/60">2. Pending</span>
+            <span class="text-gray-600">→</span>
+            <span class="px-2.5 py-1 rounded-lg bg-blue-950/50 text-blue-300 border border-blue-800/60">3. Assigned</span>
+            <span class="text-gray-600">→</span>
+            <span class="px-2.5 py-1 rounded-lg bg-amber-950/50 text-amber-300 border border-amber-800/60">4. In Progress</span>
+            <span class="text-gray-600">→</span>
+            <span class="px-2.5 py-1 rounded-lg bg-emerald-950/50 text-emerald-300 border border-emerald-800/60">5. Repaired</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Urgent Priority Dispatch Queue (Priority > 70) -->
+      <div class="glass-card rounded-2xl border border-rose-900/40 bg-rose-950/5 overflow-hidden">
+        <div class="p-5 border-b border-rose-900/30 flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-lg bg-rose-500/20 text-rose-400 flex items-center justify-center">
+              <i class="fas fa-triangle-exclamation"></i>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-white">Urgent High-Priority Repair Queue</h3>
+              <p class="text-[11px] text-rose-300/80">Road defects with Priority Score &gt; 70 requiring active work orders</p>
+            </div>
+          </div>
+          <span id="urgent-queue-count" class="px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-rose-500 text-white">
+            0 Urgent
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-gray-300">
+            <thead class="bg-gray-900/80 text-gray-400 font-mono uppercase tracking-wider border-b border-gray-800">
+              <tr>
+                <th class="py-3 px-4">Defect</th>
+                <th class="py-3 px-4">Priority Score</th>
+                <th class="py-3 px-4">Damage Type</th>
+                <th class="py-3 px-4">Location</th>
+                <th class="py-3 px-4">Assigned Crew</th>
+                <th class="py-3 px-4">Scheduled Date</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-right">Quick Action</th>
+              </tr>
+            </thead>
+            <tbody id="urgent-queue-tbody" class="divide-y divide-gray-800">
+              <tr>
+                <td colspan="8" class="text-center py-8 text-gray-500">
+                  <i class="fas fa-circle-notch fa-spin text-lg text-rose-400 mb-2"></i>
+                  <div>Scanning urgent maintenance records...</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Kanban Columns: Pending -> Assigned -> In Progress -> Repaired -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <i class="fas fa-table-columns text-sky-400"></i> Municipal Workflow Board
+          </h3>
+          <span class="text-xs text-gray-400">Manage statuses across active teams</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+          
+          <!-- Column 1: Pending Review -->
+          <div class="glass-card rounded-2xl border border-gray-800 p-4 space-y-3 flex flex-col">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-2.5">
+              <span class="font-bold text-xs text-rose-300 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-rose-500"></span> Pending / Detected
+              </span>
+              <span id="col-count-pending" class="text-xs font-mono font-bold text-gray-400">0</span>
+            </div>
+            <div id="col-items-pending" class="space-y-3 flex-1 overflow-y-auto max-h-[600px] pr-1"></div>
+          </div>
+
+          <!-- Column 2: Assigned -->
+          <div class="glass-card rounded-2xl border border-gray-800 p-4 space-y-3 flex flex-col">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-2.5">
+              <span class="font-bold text-xs text-blue-300 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span> Assigned
+              </span>
+              <span id="col-count-assigned" class="text-xs font-mono font-bold text-gray-400">0</span>
+            </div>
+            <div id="col-items-assigned" class="space-y-3 flex-1 overflow-y-auto max-h-[600px] pr-1"></div>
+          </div>
+
+          <!-- Column 3: In Progress -->
+          <div class="glass-card rounded-2xl border border-gray-800 p-4 space-y-3 flex flex-col">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-2.5">
+              <span class="font-bold text-xs text-amber-300 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-amber-500"></span> In Progress
+              </span>
+              <span id="col-count-inprogress" class="text-xs font-mono font-bold text-gray-400">0</span>
+            </div>
+            <div id="col-items-inprogress" class="space-y-3 flex-1 overflow-y-auto max-h-[600px] pr-1"></div>
+          </div>
+
+          <!-- Column 4: Repaired -->
+          <div class="glass-card rounded-2xl border border-gray-800 p-4 space-y-3 flex flex-col">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-2.5">
+              <span class="font-bold text-xs text-emerald-300 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Repaired & Closed
+              </span>
+              <span id="col-count-repaired" class="text-xs font-mono font-bold text-gray-400">0</span>
+            </div>
+            <div id="col-items-repaired" class="space-y-3 flex-1 overflow-y-auto max-h-[600px] pr-1"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Quick Edit Modal -->
+  <div id="quick-edit-modal" class="fixed inset-0 bg-black/70 z-50 hidden backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="glass-card w-full max-w-lg rounded-2xl border border-gray-700 p-6 space-y-4 shadow-2xl relative">
+      <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i class="fas fa-wrench text-sky-400"></i> Update Work Order <span id="modal-defect-id" class="text-sky-400">#--</span>
+        </h3>
+        <button onclick="closeQuickModal()" class="text-gray-400 hover:text-white">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block text-gray-300 font-medium mb-1">Status Transition</label>
+          <select id="modal-status" class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white">
+            <option value="Detected">Detected</option>
+            <option value="Pending">Pending</option>
+            <option value="Assigned">Assigned</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Repaired">Repaired</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-gray-300 font-medium mb-1">Assign Repair Crew</label>
+          <select id="modal-crew" class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white">
+            <option value="">-- Select Crew --</option>
+            <option value="Rapid Patch Unit Alpha">Rapid Patch Unit Alpha</option>
+            <option value="Sealant Specialist Team 3">Sealant Specialist Team 3</option>
+            <option value="Metro Heavy Asphalt Crew">Metro Heavy Asphalt Crew</option>
+            <option value="District Maintenance Unit 4">District Maintenance Unit 4</option>
+            <option value="Expressway Night Division">Expressway Night Division</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-gray-300 font-medium mb-1">Scheduled Target Date</label>
+          <input type="date" id="modal-date" class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white">
+        </div>
+
+        <div>
+          <label class="block text-gray-300 font-medium mb-1">Dispatch / Field Notes</label>
+          <textarea id="modal-notes" rows="3" placeholder="Enter notes..." class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-white"></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-3 border-t border-gray-800">
+        <button type="button" onclick="closeQuickModal()" class="px-4 py-2 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold text-xs">
+          Cancel
+        </button>
+        <button type="button" id="btn-modal-save" class="px-5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs transition shadow">
+          Apply Update
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/maintenance.js"></script>
+</body>
+</html>

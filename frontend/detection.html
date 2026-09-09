@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Detection Studio - RoadGuard AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-[#0b0f19] text-gray-100 min-h-screen flex antialiased">
+
+  <!-- Mobile Overlay -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden backdrop-blur-sm"></div>
+
+  <!-- Sidebar -->
+  <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-[#0f172a] border-r border-gray-800 flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0">
+    <div class="h-16 px-6 border-b border-gray-800 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center shadow-md shadow-sky-500/20">
+          <i class="fas fa-road text-white text-sm"></i>
+        </div>
+        <div>
+          <span class="font-extrabold tracking-tight text-white text-base">ROADGUARD <span class="text-sky-400">AI</span></span>
+          <span class="block text-[8px] font-mono tracking-widest text-gray-400 uppercase -mt-0.5">Control Center</span>
+        </div>
+      </a>
+      <button id="sidebar-toggle" class="lg:hidden text-gray-400 hover:text-white">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <nav class="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto">
+      <div class="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-gray-500">Navigation</div>
+      
+      <a href="/dashboard" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-gauge-high w-5 text-center text-sky-400"></i>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="/detect" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-crosshairs w-5 text-center text-indigo-400"></i>
+        <span>AI Detection</span>
+      </a>
+
+      <a href="/map" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-map-location-dot w-5 text-center text-emerald-400"></i>
+        <span>Road Damage Map</span>
+      </a>
+
+      <a href="/history" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-clock-rotate-left w-5 text-center text-amber-400"></i>
+        <span>Detection History</span>
+      </a>
+
+      <a href="/maintenance" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-truck-pickup w-5 text-center text-rose-400"></i>
+        <span>Maintenance</span>
+      </a>
+
+      <a href="/analytics" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-chart-pie w-5 text-center text-cyan-400"></i>
+        <span>Analytics</span>
+      </a>
+
+      <div class="pt-5 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-gray-500">Documentation</div>
+
+      <a href="/about" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-graduation-cap w-5 text-center text-purple-400"></i>
+        <span>Project Info</span>
+      </a>
+
+      <a href="/" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-home w-5 text-center text-gray-400"></i>
+        <span>Landing Page</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 lg:ml-64 flex flex-col min-h-screen">
+    
+    <!-- Top Bar -->
+    <header class="h-16 bg-[#0f172a]/95 backdrop-blur-md border-b border-gray-800 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+      <div class="flex items-center gap-3">
+        <button onclick="document.getElementById('app-sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-overlay').classList.toggle('hidden');" class="lg:hidden text-gray-400 hover:text-white p-1">
+          <i class="fas fa-bars text-lg"></i>
+        </button>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-white leading-tight">AI Road Damage Detection Studio</h1>
+          <p class="text-xs text-gray-400 hidden sm:block">Computer Vision Defect Identification & Priority Rating</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-indigo-950/80 border border-indigo-500/40 text-indigo-300">
+          <i class="fas fa-eye text-xs"></i> 5 Classes Supported
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Studio Content -->
+    <main class="flex-1 p-4 sm:p-8 space-y-8">
+
+      <!-- Upload and Configuration Panel -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left Column: File Drop & Sample Selector (7 cols) -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <!-- Dropzone -->
+          <div class="glass-card p-6 rounded-2xl border border-gray-800 relative">
+            <h2 class="text-sm font-bold text-white flex items-center gap-2 mb-4">
+              <i class="fas fa-cloud-arrow-up text-sky-400"></i> 1. Road Image or Video Source
+            </h2>
+
+            <div id="drop-zone" class="border-2 border-dashed border-gray-700 hover:border-sky-500/70 rounded-xl p-6 text-center cursor-pointer transition bg-gray-900/40 relative">
+              <input type="file" id="file-input" accept="image/*,video/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+              
+              <div id="drop-placeholder" class="space-y-3">
+                <div class="w-14 h-14 rounded-2xl bg-sky-500/10 text-sky-400 flex items-center justify-center mx-auto text-2xl">
+                  <i class="fas fa-road-barrier"></i>
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-white">Click to upload or drag & drop</p>
+                  <p class="text-xs text-gray-400 mt-1">Supports JPEG, PNG, WEBP, or Road Dashcam Video (Max 25MB)</p>
+                </div>
+              </div>
+
+              <!-- Selected Preview -->
+              <div id="preview-container" class="hidden relative max-h-64 overflow-hidden rounded-lg">
+                <img id="image-preview" src="#" alt="Upload preview" class="w-full h-56 object-cover rounded-lg border border-gray-700">
+                <button type="button" id="remove-file-btn" class="absolute top-2 right-2 px-2.5 py-1 rounded bg-rose-600 text-white text-xs font-semibold hover:bg-rose-500 transition shadow">
+                  <i class="fas fa-trash mr-1"></i> Remove
+                </button>
+              </div>
+            </div>
+
+            <!-- Built-in 1-Click Sample Image Selector -->
+            <div class="mt-5 pt-4 border-t border-gray-800">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-semibold text-gray-300">
+                  <i class="fas fa-wand-magic-sparkles text-amber-400 mr-1"></i> Quick Test with Preloaded Road Samples:
+                </span>
+                <span class="text-[10px] text-gray-500 font-mono">1-Click Test</span>
+              </div>
+
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="sample-buttons-container">
+                <button type="button" data-sample="sample_pothole.jpg" class="sample-btn p-2 rounded-xl bg-gray-900 border border-gray-700/80 hover:border-rose-500 text-left transition group">
+                  <img src="/uploads/samples/sample_pothole.jpg" class="w-full h-16 object-cover rounded-lg mb-1.5 border border-gray-800 group-hover:scale-105 transition" onerror="this.src='#'">
+                  <div class="text-[11px] font-bold text-white truncate">Pothole</div>
+                  <div class="text-[9px] text-rose-400 font-mono uppercase">High Severity</div>
+                </button>
+
+                <button type="button" data-sample="sample_alligator_crack.jpg" class="sample-btn p-2 rounded-xl bg-gray-900 border border-gray-700/80 hover:border-indigo-500 text-left transition group">
+                  <img src="/uploads/samples/sample_alligator_crack.jpg" class="w-full h-16 object-cover rounded-lg mb-1.5 border border-gray-800 group-hover:scale-105 transition" onerror="this.src='#'">
+                  <div class="text-[11px] font-bold text-white truncate">Alligator Crack</div>
+                  <div class="text-[9px] text-indigo-400 font-mono uppercase">High Severity</div>
+                </button>
+
+                <button type="button" data-sample="sample_longitudinal_crack.jpg" class="sample-btn p-2 rounded-xl bg-gray-900 border border-gray-700/80 hover:border-sky-500 text-left transition group">
+                  <img src="/uploads/samples/sample_longitudinal_crack.jpg" class="w-full h-16 object-cover rounded-lg mb-1.5 border border-gray-800 group-hover:scale-105 transition" onerror="this.src='#'">
+                  <div class="text-[11px] font-bold text-white truncate">Longitudinal</div>
+                  <div class="text-[9px] text-amber-400 font-mono uppercase">Medium Severity</div>
+                </button>
+
+                <button type="button" data-sample="sample_transverse_crack.jpg" class="sample-btn p-2 rounded-xl bg-gray-900 border border-gray-700/80 hover:border-emerald-500 text-left transition group">
+                  <img src="/uploads/samples/sample_transverse_crack.jpg" class="w-full h-16 object-cover rounded-lg mb-1.5 border border-gray-800 group-hover:scale-105 transition" onerror="this.src='#'">
+                  <div class="text-[11px] font-bold text-white truncate">Transverse Crack</div>
+                  <div class="text-[9px] text-amber-400 font-mono uppercase">Medium Severity</div>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right Column: Location & Inference Controls (5 cols) -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="glass-card p-6 rounded-2xl border border-gray-800 space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                <i class="fas fa-location-dot text-rose-400"></i> 2. Geospatial & Traffic Context
+              </h2>
+              <button type="button" id="btn-get-location" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/30 text-xs font-medium transition">
+                <i class="fas fa-crosshairs"></i> Use Browser GPS
+              </button>
+            </div>
+
+            <div>
+              <label class="block text-xs font-medium text-gray-300 mb-1">Road / Corridor Name</label>
+              <input type="text" id="input-location-name" value="Avinashi Road Arterial (Peelamedu), Coimbatore" class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-xs text-white focus:outline-none focus:border-sky-500">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Latitude</label>
+                <input type="number" step="0.0001" id="input-lat" value="11.0285" class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-xs font-mono text-white focus:outline-none focus:border-sky-500">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-gray-300 mb-1">Longitude</label>
+                <input type="number" step="0.0001" id="input-lng" value="76.9625" class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-xs font-mono text-white focus:outline-none focus:border-sky-500">
+              </div>
+            </div>
+
+            <!-- Traffic Importance Slider -->
+            <div>
+              <div class="flex justify-between items-center text-xs mb-1">
+                <span class="text-gray-300 font-medium">Corridor Traffic Importance</span>
+                <span id="traffic-label" class="font-mono text-sky-400 font-bold">0.75 (Arterial)</span>
+              </div>
+              <input type="range" id="input-traffic" min="0.1" max="1.0" step="0.05" value="0.75" class="w-full accent-sky-500">
+              <div class="flex justify-between text-[10px] text-gray-500 font-mono mt-0.5">
+                <span>0.1 (Rural Lane)</span>
+                <span>0.5 (Collector)</span>
+                <span>1.0 (Major Highway)</span>
+              </div>
+            </div>
+
+            <!-- Run AI Inference Button -->
+            <div class="pt-2">
+              <button type="button" id="btn-detect" class="w-full py-3.5 px-6 rounded-xl font-bold text-sm bg-gradient-to-r from-sky-500 via-blue-600 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 text-white shadow-xl shadow-sky-500/25 flex items-center justify-center gap-2 transform active:scale-98 transition duration-200">
+                <i class="fas fa-play"></i> Run AI Detection
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Detection Results Section (Initially Hidden or Populated) -->
+      <div id="results-card" class="hidden glass-card p-6 sm:p-8 rounded-2xl border border-sky-500/40 space-y-6">
+        
+        <!-- Mode Banner & Result Heading -->
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b border-gray-800 pb-4">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                DEMO RESULT
+              </span>
+              <h3 class="text-lg font-bold text-white">AI Detection Analysis Completed</h3>
+            </div>
+            <p id="res-mode-notice" class="text-xs text-gray-400 mt-0.5 font-mono">
+              Demo AI Mode – Connect a trained YOLO road-damage model for real inference.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span id="res-timestamp" class="text-xs font-mono text-gray-400"></span>
+            <a id="res-view-details-link" href="#" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-xs font-semibold text-sky-400 border border-gray-700 transition">
+              View in History <i class="fas fa-arrow-right text-[10px] ml-1"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Dual Image Comparison View -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Original Image -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs font-semibold text-gray-400">
+              <span>Original Input Image</span>
+              <span class="font-mono text-[10px] text-gray-500">Source Capture</span>
+            </div>
+            <div class="h-80 rounded-xl overflow-hidden bg-black/60 border border-gray-800 flex items-center justify-center relative">
+              <img id="res-orig-img" src="#" alt="Original Road" class="max-h-full max-w-full object-contain">
+            </div>
+          </div>
+
+          <!-- Processed Image with AI Bounding Boxes -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs font-semibold text-sky-400">
+              <span class="flex items-center gap-1.5">
+                <i class="fas fa-draw-polygon"></i> Processed AI Inference (Bounding Boxes)
+              </span>
+              <span class="font-mono text-[10px] text-sky-300">OpenCV / YOLO Bounding Boxes</span>
+            </div>
+            <div class="h-80 rounded-xl overflow-hidden bg-black/60 border border-sky-500/50 flex items-center justify-center relative shadow-lg shadow-sky-500/10">
+              <img id="res-proc-img" src="#" alt="Processed Road Defect" class="max-h-full max-w-full object-contain">
+            </div>
+          </div>
+        </div>
+
+        <!-- Metrics Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+          <!-- Metric 1: Defect Type -->
+          <div class="p-4 rounded-xl bg-gray-900/90 border border-gray-800">
+            <span class="text-[11px] text-gray-400 font-medium block mb-1">Detected Damage Class</span>
+            <div id="res-damage-type" class="text-xl font-bold text-white">--</div>
+            <div class="text-[11px] font-mono text-gray-400 mt-1">
+              Confidence: <span id="res-confidence" class="text-sky-400 font-bold">--</span>
+            </div>
+          </div>
+
+          <!-- Metric 2: Severity -->
+          <div class="p-4 rounded-xl bg-gray-900/90 border border-gray-800">
+            <span class="text-[11px] text-gray-400 font-medium block mb-1">Assessed Severity</span>
+            <div id="res-severity-badge" class="mt-1">--</div>
+            <div class="text-[11px] text-gray-400 mt-2">Surface risk & depth factor</div>
+          </div>
+
+          <!-- Metric 3: Priority Score -->
+          <div class="p-4 rounded-xl bg-gray-900/90 border border-gray-800">
+            <span class="text-[11px] text-gray-400 font-medium block mb-1">Calculated Priority Score</span>
+            <div class="flex items-baseline gap-2">
+              <span id="res-priority-score" class="text-3xl font-extrabold text-white">--</span>
+              <span class="text-xs text-gray-400 font-mono">/ 100</span>
+              <span id="res-priority-level" class="text-xs font-semibold text-rose-400"></span>
+            </div>
+            <div class="w-full bg-gray-800 rounded-full h-2 mt-2 overflow-hidden">
+              <div id="res-priority-bar" class="h-2 rounded-full bg-rose-500" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Metric 4: Geotag Location -->
+          <div class="p-4 rounded-xl bg-gray-900/90 border border-gray-800">
+            <span class="text-[11px] text-gray-400 font-medium block mb-1">Geotagged Location</span>
+            <div id="res-location-name" class="text-xs font-semibold text-white truncate">--</div>
+            <div id="res-coords" class="text-[10px] font-mono text-gray-400 mt-1">Lat: --, Lng: --</div>
+          </div>
+        </div>
+
+        <!-- Formula Breakdown & Academic Disclaimer -->
+        <div class="p-4 rounded-xl bg-gray-950/60 border border-gray-800/80 text-xs text-gray-400 space-y-1.5">
+          <div class="text-gray-300 font-semibold flex items-center gap-2">
+            <i class="fas fa-calculator text-sky-400"></i> Priority Scoring Logic Formulation:
+          </div>
+          <p class="font-mono text-[11px] text-gray-400">
+            Priority = (Severity × 0.40) + (Confidence × 0.20) + (Damage Area × 0.25) + (Traffic Factor × 0.15)
+          </p>
+          <p class="text-[11px] text-amber-300/80">
+            <i class="fas fa-circle-exclamation text-xs mr-1"></i> Note: Clearly marked prototype scoring system. Generated confidence values represent simulated outputs for academic prototype testing.
+          </p>
+        </div>
+
+        <!-- Quick Post-Detection Navigation Buttons -->
+        <div class="flex flex-wrap gap-3 pt-2">
+          <a href="/map" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition flex items-center gap-2">
+            <i class="fas fa-map-marked-alt"></i> View on Interactive Map
+          </a>
+          <a href="/maintenance" class="px-5 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold text-xs transition border border-gray-700 flex items-center gap-2">
+            <i class="fas fa-wrench"></i> Manage in Maintenance Board
+          </a>
+          <button type="button" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-4 py-2.5 rounded-xl bg-sky-950 hover:bg-sky-900 text-sky-300 font-semibold text-xs transition border border-sky-700">
+            <i class="fas fa-redo mr-1"></i> Scan Another Image
+          </button>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/detection.js"></script>
+</body>
+</html>

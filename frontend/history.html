@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detection History - RoadGuard AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-[#0b0f19] text-gray-100 min-h-screen flex antialiased">
+
+  <!-- Mobile Overlay -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden backdrop-blur-sm"></div>
+
+  <!-- Sidebar -->
+  <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-[#0f172a] border-r border-gray-800 flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0">
+    <div class="h-16 px-6 border-b border-gray-800 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center shadow-md shadow-sky-500/20">
+          <i class="fas fa-road text-white text-sm"></i>
+        </div>
+        <div>
+          <span class="font-extrabold tracking-tight text-white text-base">ROADGUARD <span class="text-sky-400">AI</span></span>
+          <span class="block text-[8px] font-mono tracking-widest text-gray-400 uppercase -mt-0.5">Control Center</span>
+        </div>
+      </a>
+      <button onclick="document.getElementById('app-sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-overlay').classList.add('hidden');" class="lg:hidden text-gray-400 hover:text-white">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <nav class="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto">
+      <div class="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-gray-500">Navigation</div>
+      <a href="/dashboard" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-gauge-high w-5 text-center text-sky-400"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/detect" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-crosshairs w-5 text-center text-indigo-400"></i>
+        <span>AI Detection</span>
+      </a>
+      <a href="/map" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-map-location-dot w-5 text-center text-emerald-400"></i>
+        <span>Road Damage Map</span>
+      </a>
+      <a href="/history" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-clock-rotate-left w-5 text-center text-amber-400"></i>
+        <span>Detection History</span>
+      </a>
+      <a href="/maintenance" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-truck-pickup w-5 text-center text-rose-400"></i>
+        <span>Maintenance</span>
+      </a>
+      <a href="/analytics" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-chart-pie w-5 text-center text-cyan-400"></i>
+        <span>Analytics</span>
+      </a>
+      <div class="pt-5 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-gray-500">Documentation</div>
+      <a href="/about" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-graduation-cap w-5 text-center text-purple-400"></i>
+        <span>Project Info</span>
+      </a>
+      <a href="/" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-home w-5 text-center text-gray-400"></i>
+        <span>Landing Page</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 lg:ml-64 flex flex-col min-h-screen">
+    
+    <!-- Top Bar -->
+    <header class="h-16 bg-[#0f172a]/95 backdrop-blur-md border-b border-gray-800 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+      <div class="flex items-center gap-3">
+        <button onclick="document.getElementById('app-sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-overlay').classList.toggle('hidden');" class="lg:hidden text-gray-400 hover:text-white p-1">
+          <i class="fas fa-bars text-lg"></i>
+        </button>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-white leading-tight">Detection History & Telemetry Logs</h1>
+          <p class="text-xs text-gray-400 hidden sm:block">Query, filter, inspect and export historical road damage records</p>
+        </div>
+      </div>
+
+      <!-- Export Buttons -->
+      <div class="flex items-center gap-2">
+        <button id="btn-export-csv" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 transition flex items-center gap-1.5">
+          <i class="fas fa-file-csv text-emerald-400"></i> Export CSV
+        </button>
+        <button id="btn-export-json" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-gray-800 hover:bg-gray-700 text-gray-200 border border-gray-700 transition flex items-center gap-1.5">
+          <i class="fas fa-code text-amber-400"></i> Export JSON
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 sm:p-8 space-y-6">
+
+      <!-- Filter and Search Toolbar -->
+      <div class="glass-card p-4 sm:p-5 rounded-2xl border border-gray-800 space-y-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          
+          <!-- Search Input -->
+          <div class="lg:col-span-2 relative">
+            <i class="fas fa-search absolute left-3.5 top-3 text-gray-500 text-xs"></i>
+            <input type="text" id="search-input" placeholder="Search corridor, damage type, or notes..." class="w-full pl-9 pr-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-xs text-white placeholder-gray-500 focus:outline-none focus:border-sky-500">
+          </div>
+
+          <!-- Severity Filter -->
+          <div>
+            <select id="select-severity" class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-xs text-white focus:outline-none focus:border-sky-500">
+              <option value="ALL">All Severities</option>
+              <option value="HIGH">High Severity</option>
+              <option value="MEDIUM">Medium Severity</option>
+              <option value="LOW">Low Severity</option>
+            </select>
+          </div>
+
+          <!-- Damage Type Filter -->
+          <div>
+            <select id="select-type" class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-xs text-white focus:outline-none focus:border-sky-500">
+              <option value="ALL">All Damage Classes</option>
+              <option value="Pothole">Pothole</option>
+              <option value="Alligator Crack">Alligator Crack</option>
+              <option value="Transverse Crack">Transverse Crack</option>
+              <option value="Longitudinal Crack">Longitudinal Crack</option>
+              <option value="Road Surface Damage">Surface Damage</option>
+            </select>
+          </div>
+
+          <!-- Status Filter -->
+          <div>
+            <select id="select-status" class="w-full px-3 py-2 bg-gray-900 border border-gray-700 rounded-xl text-xs text-white focus:outline-none focus:border-sky-500">
+              <option value="ALL">All Statuses</option>
+              <option value="Pending">Pending</option>
+              <option value="Assigned">Assigned</option>
+              <option value="In Progress">In Progress</option>
+              <option value="Repaired">Repaired</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- Sorting & Meta Row -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-gray-800/60 text-xs">
+          <div class="flex items-center gap-3">
+            <span class="text-gray-400 font-semibold">Sort By:</span>
+            <select id="select-sort" class="bg-gray-900 border border-gray-700 rounded-lg px-2.5 py-1 text-white text-xs">
+              <option value="timestamp">Date Logged</option>
+              <option value="priority_score">Priority Score</option>
+              <option value="confidence">Confidence Score</option>
+              <option value="id">Record ID</option>
+            </select>
+            <select id="select-order" class="bg-gray-900 border border-gray-700 rounded-lg px-2 py-1 text-white text-xs">
+              <option value="DESC">Descending</option>
+              <option value="ASC">Ascending</option>
+            </select>
+          </div>
+
+          <div class="flex items-center gap-3 text-gray-400">
+            <span id="history-total-count">Showing 0 records</span>
+            <button id="btn-refresh" class="text-gray-400 hover:text-white transition">
+              <i class="fas fa-rotate text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Records Table -->
+      <div class="glass-card rounded-2xl border border-gray-800 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-gray-300">
+            <thead class="bg-gray-900/90 text-gray-400 font-mono uppercase tracking-wider border-b border-gray-800">
+              <tr>
+                <th class="py-3.5 px-4">ID</th>
+                <th class="py-3.5 px-4">Preview</th>
+                <th class="py-3.5 px-4">Damage Type</th>
+                <th class="py-3.5 px-4">Severity</th>
+                <th class="py-3.5 px-4">Confidence</th>
+                <th class="py-3.5 px-4">Location</th>
+                <th class="py-3.5 px-4">Date / Time</th>
+                <th class="py-3.5 px-4">Priority</th>
+                <th class="py-3.5 px-4">Status</th>
+                <th class="py-3.5 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="history-table-body" class="divide-y divide-gray-800">
+              <tr>
+                <td colspan="10" class="text-center py-12 text-gray-500">
+                  <i class="fas fa-circle-notch fa-spin text-xl text-sky-400 mb-2"></i>
+                  <div>Loading road records from database...</div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="p-4 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+          <div class="text-gray-400" id="pagination-info">
+            Page 1 of 1
+          </div>
+          <div class="flex items-center gap-2">
+            <button id="btn-prev-page" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 disabled:opacity-40 disabled:cursor-not-allowed transition border border-gray-700">
+              <i class="fas fa-chevron-left mr-1"></i> Prev
+            </button>
+            <div id="page-numbers-container" class="flex items-center gap-1">
+              <!-- Rendered via JS -->
+            </div>
+            <button id="btn-next-page" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 disabled:opacity-40 disabled:cursor-not-allowed transition border border-gray-700">
+              Next <i class="fas fa-chevron-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/history.js"></script>
+</body>
+</html>

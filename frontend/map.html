@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Road Damage Map - RoadGuard AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Leaflet CSS & JS CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    #damage-map {
+      height: calc(100vh - 4rem);
+      width: 100%;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body class="bg-[#0b0f19] text-gray-100 min-h-screen flex antialiased overflow-hidden">
+
+  <!-- Mobile Overlay -->
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden backdrop-blur-sm"></div>
+
+  <!-- Sidebar -->
+  <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-[#0f172a] border-r border-gray-800 flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0">
+    <div class="h-16 px-6 border-b border-gray-800 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center shadow-md shadow-sky-500/20">
+          <i class="fas fa-road text-white text-sm"></i>
+        </div>
+        <div>
+          <span class="font-extrabold tracking-tight text-white text-base">ROADGUARD <span class="text-sky-400">AI</span></span>
+          <span class="block text-[8px] font-mono tracking-widest text-gray-400 uppercase -mt-0.5">Control Center</span>
+        </div>
+      </a>
+      <button onclick="document.getElementById('app-sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-overlay').classList.add('hidden');" class="lg:hidden text-gray-400 hover:text-white">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <nav class="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto">
+      <div class="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-gray-500">Navigation</div>
+      <a href="/dashboard" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-gauge-high w-5 text-center text-sky-400"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/detect" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-crosshairs w-5 text-center text-indigo-400"></i>
+        <span>AI Detection</span>
+      </a>
+      <a href="/map" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-map-location-dot w-5 text-center text-emerald-400"></i>
+        <span>Road Damage Map</span>
+      </a>
+      <a href="/history" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-clock-rotate-left w-5 text-center text-amber-400"></i>
+        <span>Detection History</span>
+      </a>
+      <a href="/maintenance" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-truck-pickup w-5 text-center text-rose-400"></i>
+        <span>Maintenance</span>
+      </a>
+      <a href="/analytics" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-chart-pie w-5 text-center text-cyan-400"></i>
+        <span>Analytics</span>
+      </a>
+      <div class="pt-5 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-gray-500">Documentation</div>
+      <a href="/about" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-graduation-cap w-5 text-center text-purple-400"></i>
+        <span>Project Info</span>
+      </a>
+      <a href="/" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-home w-5 text-center text-gray-400"></i>
+        <span>Landing Page</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Map Wrapper -->
+  <div class="flex-1 lg:ml-64 flex flex-col h-screen overflow-hidden relative">
+    
+    <!-- Top Bar -->
+    <header class="h-16 bg-[#0f172a]/95 backdrop-blur-md border-b border-gray-800 px-4 sm:px-8 flex items-center justify-between z-30">
+      <div class="flex items-center gap-3">
+        <button onclick="document.getElementById('app-sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-overlay').classList.toggle('hidden');" class="lg:hidden text-gray-400 hover:text-white p-1">
+          <i class="fas fa-bars text-lg"></i>
+        </button>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-bold text-white leading-tight">Tamil Nadu Road Damage Map</h1>
+            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-orange-950/80 border border-orange-500/50 text-orange-300">
+              <i class="fas fa-location-dot text-orange-400"></i> Tamil Nadu, India
+            </span>
+          </div>
+          <p class="text-xs text-gray-400 hidden sm:block">State Highway & Municipal Infrastructure Monitoring • Indian Regional Focus</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-3">
+        <div class="hidden sm:flex items-center gap-2 text-xs">
+          <span class="inline-flex items-center gap-1 text-rose-400"><span class="w-2 h-2 rounded-full bg-red-500"></span> High</span>
+          <span class="inline-flex items-center gap-1 text-amber-400"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Medium</span>
+          <span class="inline-flex items-center gap-1 text-emerald-400"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Low</span>
+        </div>
+        <span id="markers-count-badge" class="px-2.5 py-1 rounded-full text-xs font-mono bg-gray-800 border border-gray-700 text-gray-300">
+          Loading pins...
+        </span>
+      </div>
+    </header>
+
+    <!-- Map Filter Toolbar (Overlay on top of map) -->
+    <div class="absolute top-20 left-4 right-4 sm:left-8 sm:right-8 z-20 pointer-events-none">
+      <div class="glass-card p-3 rounded-2xl border border-gray-800/80 shadow-2xl flex flex-wrap items-center gap-3 pointer-events-auto text-xs">
+        
+        <!-- Severity Filter -->
+        <div class="flex items-center gap-1.5">
+          <label class="text-gray-400 font-semibold">Severity:</label>
+          <select id="filter-severity" class="bg-gray-900 border border-gray-700 rounded-lg px-2.5 py-1.5 text-white text-xs focus:outline-none focus:border-sky-500">
+            <option value="ALL">All Severities</option>
+            <option value="HIGH">High Severity</option>
+            <option value="MEDIUM">Medium Severity</option>
+            <option value="LOW">Low Severity</option>
+          </select>
+        </div>
+
+        <!-- Damage Type Filter -->
+        <div class="flex items-center gap-1.5">
+          <label class="text-gray-400 font-semibold">Type:</label>
+          <select id="filter-type" class="bg-gray-900 border border-gray-700 rounded-lg px-2.5 py-1.5 text-white text-xs focus:outline-none focus:border-sky-500">
+            <option value="ALL">All Types</option>
+            <option value="Pothole">Pothole</option>
+            <option value="Alligator Crack">Alligator Crack</option>
+            <option value="Transverse Crack">Transverse Crack</option>
+            <option value="Longitudinal Crack">Longitudinal Crack</option>
+            <option value="Road Surface Damage">Surface Damage</option>
+          </select>
+        </div>
+
+        <!-- Status Filter -->
+        <div class="flex items-center gap-1.5">
+          <label class="text-gray-400 font-semibold">Status:</label>
+          <select id="filter-status" class="bg-gray-900 border border-gray-700 rounded-lg px-2.5 py-1.5 text-white text-xs focus:outline-none focus:border-sky-500">
+            <option value="ALL">All Statuses</option>
+            <option value="Pending">Pending / Detected</option>
+            <option value="Assigned">Assigned</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Repaired">Repaired</option>
+          </select>
+        </div>
+
+        <!-- Priority Threshold Slider -->
+        <div class="hidden md:flex items-center gap-2">
+          <label class="text-gray-400 font-semibold">Min Priority:</label>
+          <input type="range" id="filter-priority" min="0" max="90" step="5" value="0" class="w-20 accent-sky-500">
+          <span id="priority-slider-label" class="font-mono text-sky-400 font-bold w-5">0</span>
+        </div>
+
+        <!-- Map Navigation Controls: Tamil Nadu View, India View, Reset -->
+        <div class="ml-auto flex items-center gap-2">
+          <button id="btn-view-tn" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition text-xs font-semibold shadow flex items-center gap-1">
+            <i class="fas fa-map-pin text-[11px]"></i> Tamil Nadu View
+          </button>
+          <button id="btn-view-india" class="px-2.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-200 transition text-xs border border-gray-700 font-semibold flex items-center gap-1">
+            <i class="fas fa-globe-asia text-orange-400 text-[11px]"></i> India View
+          </button>
+          <button id="btn-reset-filters" class="px-2.5 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 transition text-xs border border-gray-700" title="Reset All Filters">
+            <i class="fas fa-arrow-rotate-left mr-1"></i> Reset
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Leaflet Map Container -->
+    <div id="damage-map"></div>
+
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/map.js"></script>
+</body>
+</html>

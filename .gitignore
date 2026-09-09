@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.venv/
+venv/
+env/
+.env
+pip-log.txt
+
+# Database
+database/*.db
+database/*.sqlite
+database/*.sqlite3
+
+# Uploads - exclude all binary image files to keep repo lightweight
+uploads/
+
+# AI Model weights (large binary files)
+*.pt
+*.pth
+*.onnx
+*.weights
+*.h5
+*.hdf5
+models/*.pt
+models/*.weights
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node / npm (if any frontend tooling is added)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Temporary files
+*.tmp
+*.bak
+*.orig

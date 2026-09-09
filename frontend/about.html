@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Information - RoadGuard AI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-[#0b0f19] text-gray-100 min-h-screen flex antialiased">
+
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-40 hidden lg:hidden backdrop-blur-sm"></div>
+
+  <!-- Sidebar -->
+  <aside id="app-sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-[#0f172a] border-r border-gray-800 flex flex-col transition-transform duration-300 transform -translate-x-full lg:translate-x-0">
+    <div class="h-16 px-6 border-b border-gray-800 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center shadow-md shadow-sky-500/20">
+          <i class="fas fa-road text-white text-sm"></i>
+        </div>
+        <div>
+          <span class="font-extrabold tracking-tight text-white text-base">ROADGUARD <span class="text-sky-400">AI</span></span>
+          <span class="block text-[8px] font-mono tracking-widest text-gray-400 uppercase -mt-0.5">Control Center</span>
+        </div>
+      </a>
+      <button onclick="document.getElementById('app-sidebar').classList.add('-translate-x-full'); document.getElementById('sidebar-overlay').classList.add('hidden');" class="lg:hidden text-gray-400 hover:text-white">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <nav class="flex-1 px-3 py-6 space-y-1.5 overflow-y-auto">
+      <div class="px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-gray-500">Navigation</div>
+      <a href="/dashboard" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-gauge-high w-5 text-center text-sky-400"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="/detect" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-crosshairs w-5 text-center text-indigo-400"></i>
+        <span>AI Detection</span>
+      </a>
+      <a href="/map" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-map-location-dot w-5 text-center text-emerald-400"></i>
+        <span>Road Damage Map</span>
+      </a>
+      <a href="/history" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-clock-rotate-left w-5 text-center text-amber-400"></i>
+        <span>Detection History</span>
+      </a>
+      <a href="/maintenance" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-truck-pickup w-5 text-center text-rose-400"></i>
+        <span>Maintenance</span>
+      </a>
+      <a href="/analytics" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-chart-pie w-5 text-center text-cyan-400"></i>
+        <span>Analytics</span>
+      </a>
+      <div class="pt-5 px-3 pb-2 text-[10px] font-mono uppercase tracking-wider text-gray-500">Documentation</div>
+      <a href="/about" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-graduation-cap w-5 text-center text-purple-400"></i>
+        <span>Project Info</span>
+      </a>
+      <a href="/" class="nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition text-gray-400 hover:bg-gray-800/60 hover:text-gray-200">
+        <i class="fas fa-home w-5 text-center text-gray-400"></i>
+        <span>Landing Page</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Main Content Wrapper -->
+  <div class="flex-1 lg:ml-64 flex flex-col min-h-screen">
+    
+    <header class="h-16 bg-[#0f172a]/95 backdrop-blur-md border-b border-gray-800 px-4 sm:px-8 flex items-center justify-between sticky top-0 z-30">
+      <div class="flex items-center gap-3">
+        <button onclick="document.getElementById('app-sidebar').classList.toggle('-translate-x-full'); document.getElementById('sidebar-overlay').classList.toggle('hidden');" class="lg:hidden text-gray-400 hover:text-white p-1">
+          <i class="fas fa-bars text-lg"></i>
+        </button>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold text-white leading-tight">Academic Project Presentation Support</h1>
+          <p class="text-xs text-gray-400 hidden sm:block">Engineering documentation, viva talking points, and innovation breakdown</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-xs font-mono px-3 py-1 rounded-full bg-purple-950/80 border border-purple-500/40 text-purple-300">
+          College Working Prototype
+        </span>
+      </div>
+    </header>
+
+    <main class="flex-1 p-4 sm:p-8 space-y-8 max-w-6xl">
+
+      <!-- Hero Summary Banner -->
+      <div class="glass-card p-8 rounded-2xl border border-indigo-500/30 relative overflow-hidden">
+        <div class="relative z-10 space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-300 text-xs font-mono">
+            <span>Project: ROADGUARD AI</span>
+            <span>•</span>
+            <span>"Detect. Locate. Prioritize. Repair."</span>
+          </div>
+          <h2 class="text-3xl font-extrabold text-white">
+            AI-Powered Road Damage Detection & Smart Maintenance Prioritization
+          </h2>
+          <p class="text-gray-300 text-sm max-w-3xl leading-relaxed">
+            A cyber-physical civil infrastructure monitoring system integrating computer vision, edge sensory data, geospatial GIS coordinates, and automated maintenance dispatch queues.
+          </p>
+        </div>
+      </div>
+
+      <!-- Core Academic Pillars (Problem / Solution / Innovation / Benefits) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Pillar 1: Problem -->
+        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-rose-500 space-y-3">
+          <div class="flex items-center gap-2 text-rose-400 font-bold text-base">
+            <i class="fas fa-triangle-exclamation"></i>
+            <span>The Problem</span>
+          </div>
+          <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+            Manual road inspection is extremely time-consuming, labor-intensive, hazardous for surveyors, and purely reactive. Municipalities typically learn of potholes only after vehicle axle damage occurs or citizen grievances are filed. Furthermore, conventional visual surveys lack standardized severity rating criteria.
+          </p>
+        </div>
+
+        <!-- Pillar 2: Solution -->
+        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-emerald-500 space-y-3">
+          <div class="flex items-center gap-2 text-emerald-400 font-bold text-base">
+            <i class="fas fa-lightbulb"></i>
+            <span>The Proposed Solution</span>
+          </div>
+          <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+            RoadGuard AI automates road monitoring using vehicle-mounted cameras and computer vision. Images and dashcam streams are ingested, defects are localized with bounding boxes, severity is estimated mathematically, and detections are logged to an interactive municipal GIS map and dispatch queue.
+          </p>
+        </div>
+
+        <!-- Pillar 3: Innovation -->
+        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-sky-500 space-y-3">
+          <div class="flex items-center gap-2 text-sky-400 font-bold text-base">
+            <i class="fas fa-wand-magic-sparkles"></i>
+            <span>Key Innovation</span>
+          </div>
+          <p class="text-xs sm:text-sm text-gray-300 leading-relaxed">
+            Unlike standard detection models that merely tag defect coordinates, RoadGuard AI introduces <strong>Algorithmic Maintenance Prioritization</strong>. It fuses defect dimensions, confidence metrics, and roadway traffic density into a 0–100 urgency score that directly drives repair crew dispatch.
+          </p>
+        </div>
+
+        <!-- Pillar 4: Expected Benefits -->
+        <div class="glass-card p-6 rounded-2xl border-l-4 border-l-amber-500 space-y-3">
+          <div class="flex items-center gap-2 text-amber-400 font-bold text-base">
+            <i class="fas fa-chart-line"></i>
+            <span>Expected Benefits</span>
+          </div>
+          <ul class="text-xs sm:text-sm text-gray-300 space-y-1.5 leading-relaxed">
+            <li>• <strong>Safer Roads:</strong> Prevents blowouts and catastrophic accidents.</li>
+            <li>• <strong>Faster Inspections:</strong> 10x survey speedup over human walk-throughs.</li>
+            <li>• <strong>Better Planning:</strong> Transition from reactive patches to preventative resurfacing.</li>
+            <li>• <strong>Reduced Manual Effort:</strong> Eliminates manual surveyor logging errors.</li>
+            <li>• <strong>Data-Driven Decisions:</strong> Objective budget allocation via GIS analytics.</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- 9-Step Sequential System Architecture Diagram -->
+      <div class="glass-card p-7 rounded-2xl border border-gray-800 space-y-4">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i class="fas fa-diagram-project text-indigo-400"></i> Full End-to-End System Architecture
+        </h3>
+        <p class="text-xs text-gray-400">
+          The continuous operational loop from road surface capture to municipal repair closure:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-9 gap-2 text-center text-xs">
+          <div class="p-3 bg-gray-900 rounded-xl border border-gray-800"><i class="fas fa-road text-sky-400 mb-1 block"></i><strong>1. Road</strong></div>
+          <div class="p-3 bg-gray-900 rounded-xl border border-gray-800"><i class="fas fa-camera text-indigo-400 mb-1 block"></i><strong>2. Camera</strong></div>
+          <div class="p-3 bg-gray-900 rounded-xl border border-sky-500/50"><i class="fas fa-microchip text-sky-300 mb-1 block"></i><strong>3. AI Detection</strong></div>
+          <div class="p-3 bg-gray-900 rounded-xl border border-gray-800"><i class="fas fa-network-wired text-emerald-400 mb-1 block"></i><strong>4. Sensor Fusion</strong></div>
+          <div class="p-3 bg-gray-900 rounded-xl border border-gray-800"><i class="fas fa-gauge-high text-amber-400 mb-1 block"></i><strong>5. Severity</strong></div>
+          <div class="p-3 bg-gray-900 rounded-xl border border-gray-800"><i class="fas fa-location-dot text-rose-400 mb-1 block"></i><strong>6. GPS Geotag</strong></div>
+          <div class="p-3 bg-gray-900 rounded-xl border border-gray-800"><i class="fas fa-database text-cyan-400 mb-1 block"></i><strong>7. Database</strong></div>
+          <div class="p-3 bg-gray-900 rounded-xl border border-gray-800"><i class="fas fa-desktop text-blue-400 mb-1 block"></i><strong>8. Dashboard</strong></div>
+          <div class="p-3 bg-gray-900 rounded-xl border border-emerald-500/50"><i class="fas fa-truck-pickup text-emerald-400 mb-1 block"></i><strong>9. Repair Team</strong></div>
+        </div>
+      </div>
+
+      <!-- Priority Scoring Formula Documentation -->
+      <div class="glass-card p-6 rounded-2xl border border-gray-800 space-y-3 font-mono text-xs">
+        <h3 class="font-bold text-white font-sans text-sm flex items-center gap-2">
+          <i class="fas fa-calculator text-amber-400"></i> Mathematical Priority Scoring Algorithm
+        </h3>
+        <div class="p-4 rounded-xl bg-gray-950/80 border border-gray-800 text-sky-300 space-y-1">
+          <div>Priority_Score = (Severity_Weight × 0.40) + (Confidence_Weight × 0.20) + (Damage_Size_Weight × 0.25) + (Traffic_Importance_Weight × 0.15)</div>
+          <div class="text-gray-400 text-[11px] pt-1">
+            Where:
+            <br>• Severity_Weight ∈ {LOW: 25, MEDIUM: 65, HIGH: 95}
+            <br>• Confidence_Weight = Confidence × 100
+            <br>• Damage_Size_Weight = Min(Box_Area / Image_Area / 0.20, 1.0) × 100
+            <br>• Traffic_Importance_Weight = Traffic_Factor (0.1 to 1.0) × 100
+          </div>
+        </div>
+        <div class="grid grid-cols-3 gap-3 text-center text-[11px]">
+          <div class="p-2 rounded bg-emerald-950/40 border border-emerald-800 text-emerald-300">0 - 30: Low Priority</div>
+          <div class="p-2 rounded bg-amber-950/40 border border-amber-800 text-amber-300">31 - 70: Medium Priority</div>
+          <div class="p-2 rounded bg-rose-950/40 border border-rose-800 text-rose-300">71 - 100: High Priority</div>
+        </div>
+      </div>
+
+      <!-- Future Enhancements -->
+      <div class="glass-card p-7 rounded-2xl border border-purple-500/30 space-y-4">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i class="fas fa-rocket text-purple-400"></i> Future Roadmap & Hardware Edge Deployments
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 rounded-xl bg-gray-900 border border-gray-800 space-y-1">
+            <h4 class="font-bold text-white flex items-center gap-1.5"><i class="fas fa-microchip text-sky-400"></i> Raspberry Pi Deployment</h4>
+            <p class="text-gray-400 leading-relaxed">Mounting compute units onto public transit buses and waste collection trucks for passive city-wide daily scanning.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-gray-900 border border-gray-800 space-y-1">
+            <h4 class="font-bold text-white flex items-center gap-1.5"><i class="fas fa-satellite text-indigo-400"></i> ESP32 + IMU Vibration Fusion</h4>
+            <p class="text-gray-400 leading-relaxed">Tri-axial accelerometers detect sudden vertical jolts to cross-validate pothole depth and suspension impact.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-gray-900 border border-gray-800 space-y-1">
+            <h4 class="font-bold text-white flex items-center gap-1.5"><i class="fas fa-location-crosshairs text-rose-400"></i> Real RTK GPS Module</h4>
+            <p class="text-gray-400 leading-relaxed">Interfacing external NEO-6M / RTK GNSS receivers for centimeter-level lane position accuracy.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-gray-900 border border-gray-800 space-y-1">
+            <h4 class="font-bold text-white flex items-center gap-1.5"><i class="fas fa-cloud text-cyan-400"></i> Cloud Fleet Database</h4>
+            <p class="text-gray-400 leading-relaxed">Syncing decentralized vehicle edge logs into PostgreSQL / PostGIS distributed cloud databases.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-gray-900 border border-gray-800 space-y-1">
+            <h4 class="font-bold text-white flex items-center gap-1.5"><i class="fas fa-cloud-sun-rain text-amber-400"></i> Weather & Rain Sensor Fusion</h4>
+            <p class="text-gray-400 leading-relaxed">Correlating freeze-thaw cycles and heavy rain forecast to predict accelerated pothole collapse.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-gray-900 border border-gray-800 space-y-1">
+            <h4 class="font-bold text-white flex items-center gap-1.5"><i class="fas fa-mobile-screen text-emerald-400"></i> Citizen Crowdsourcing App</h4>
+            <p class="text-gray-400 leading-relaxed">Mobile app allowing motorists to auto-upload geotagged road hazards when windshield smartphone is docked.</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
